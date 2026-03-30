@@ -1,2 +1,154 @@
-# Inverted_Pendulum_on_a_Cart_Control_Law_Performance_Study
-Comparative analysis of different control strategies (state feedback, LQR, MPC) for an inverted pendulum system mounted on a movable cart
+# Inverted Pendulum on a Cart: Control Law Performance Study
+Comparative analysis of different control strategies (state feedback, LQR, MPC) to equilibrate an inverted pendulum system mounted on a movable cart.
+
+ <a href= "https://img.shields.io/badge/github-repo-blue?logo=github"> <img src="https://img.shields.io/badge/github-repo-blue?logo=github" alt="GitHub Badge"/></a>
+<a href= "https://img.shields.io/badge/MATLAB-R_2022b-orange"> <img src="https://img.shields.io/badge/MATLAB-R_2022b-orange" alt="Matlab Badge"/></a>
+<a href= "https://img.shields.io/badge/Octave-R"> <img src="https://img.shields.io/badge/Octave-R" alt="Octave Badge"/></a>
+<a href= "https://img.shields.io/badge/License-Apache--2.0-yellow"> <img src="https://img.shields.io/badge/License-Apache--2.0-yellow" alt="License Badge"/></a>
+
+---
+
+## 📌 Overview
+
+This project investigates the performance of various control laws for stabilizing an **inverted pendulum on a cart**, using the **linearized dynamics** of the inherently nonlinear system. 
+The study compares:
+
+- **State Feedback Control**
+- **Linear Quadratic Regulator with Integrator (LQR)**
+- **Model Predictive Control (MPC)**
+- **Offset-Free MPC with Integrator**
+- **Constrained Offset-Free MPC**
+
+Additionally, the robustness of each controller is evaluated under **model parameter uncertainties** and **external disturbances**.
+
+---
+
+## 🔧 System Description
+
+The inverted pendulum on a cart is a classic control problem with nonlinear dynamics. The system is modeled using:
+
+- **State-space representation** (linearized around the upright equilibrium)
+- **Physical parameters**: mass, length, gravity, friction, etc.
+
+---
+
+## 📊 Control Strategies
+
+### 1. **State Feedback Control**
+
+- Uses **pole placement** or **LQR** for stabilization.
+- Assumes perfect model knowledge.
+
+### 2. **Model Predictive Control (MPC)**
+
+- Optimizes control actions over a finite horizon.
+- Handles constraints explicitly.
+
+### 3. **Offset-Free MPC with Integrator**
+
+- Extends MPC with an **integral action** to eliminate steady-state errors.
+- Robust to constant disturbances.
+
+### 4. **Constrained Offset-Free MPC**
+
+- Combines offset-free properties with **input/output constraints**.
+- Evaluates robustness to parameter mismatches.
+
+---
+
+## 📈 Performance Metrics
+
+- **Rise time**
+- **Overshoot**
+- **Settling time**
+- **Steady-state error**
+- **Robustness to:**
+  - Mass/length uncertainties (±10-20%)
+  - External force disturbances (step/sinusoidal)
+
+---
+
+## 🛠️ Setup & Requirements
+
+### Prerequisites
+
+- **Matlab R2020a+** or **GNU Octave 6.0+**
+- **Control System Toolbox** (Matlab)
+- **Optimization Toolbox** (for MPC)
+
+### Installation
+
+1. Clone this repository:
+  ```bash
+   git clone https://github.com/yourusername/inverted-pendulum-control.git
+  ```
+2. Open Matlab/Octave and navigate to the project folder.
+
+---
+
+## 🚀 Usage
+
+### 1. Simulate the System
+
+Run the main script to compare all controllers:
+
+```matlab
+mpc_study_case_main;
+```
+
+- Adjust parameters in `params.m` for uncertainties/disturbances.
+
+### 2. Visualize Results
+
+- Time-domain responses (pendulum angle, cart position).
+- Control effort plots.
+- Robustness analysis (Monte Carlo simulations).
+
+### 3. Customize Controllers
+
+Modify controller tuning in:
+
+- `state_feedback_design.m`
+- `mpc_design.m`
+- `offset_free_mpc_design.m`
+
+---
+
+
+
+---
+
+## 📝 Key Findings
+
+- **State Feedback**: Simple but sensitive to model errors.
+- **MPC**: Better constraint handling but computationally intensive.
+- **Offset-Free MPC**: Eliminates steady-state errors; robust to disturbances.
+- **Constrained Offset-Free MPC**: Best overall robustness and performance.
+
+---
+
+## 📚 References
+
+1. Menouar MEZIANI and Mourad AKKOUL. “Modélisation et simulation
+d’un pendule inversé”. In: Mémoire de fin d’étude de MASTER
+ACADEMIQUE Spécialité : AUTOMATIQUE. Université Mouloud
+Mammeri de Tizi-Ouzou, Algérie. 2016.
+2. Ammar RAMDANI. “Commande prédictive des systèmes dynamiques
+: étude comparative avec les régulateurs classiques”. In: Mémoire de
+Magister filière génie électrique. Université M’HAMED BOUGARABOUMERDES,
+Algérie. 2013.
+3.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome!
+
+- New controller implementations including nonlinear MPC (NMPC), or sliding mode control (SMC).
+- Improved robustness tests.
+- Asses performance on more comprehensive reference trajectories
+- Documentation enhancements.
+
+---
+
