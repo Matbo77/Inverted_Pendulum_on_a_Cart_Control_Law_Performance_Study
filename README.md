@@ -16,8 +16,8 @@ The study compares:
 - **State Feedback Control (SF)**
 - **Linear Quadratic Regulator and with Integrator (LQR and LQRI)**
 - **Model Predictive Control (MPC)**
-- **Offset-Free MPC with Integrator (OFMPC)**
-- **Constrained Offset-Free MPC (COFMPC)**
+- **Offset-Free MPC with Integrator (OSF-MPC)**
+- **Constrained Offset-Free MPC (COSF-MPC)**
 
 Additionally, the robustness of each controller is evaluated under **model parameter uncertainties** and **external disturbances**.
 
@@ -106,9 +106,14 @@ mpc_study_case_main;
 
 ### 2. Visualize Results
 
-- Time-domain responses (pendulum angle, cart position).
+<!-- - Time-domain responses (pendulum angle, cart position).
 - Control effort plots.
-- Robustness analysis (Monte Carlo simulations).
+- Robustness analysis (Monte Carlo simulations). -->
+
+<img alt="System" src="pictures/Tracking_error_nl_unperturbated.png" width="50%" height="50%"> </img>
+![Control of a disturbed nonlinear system](pictures/Tracking_error_nl_perturbated.png  width="50%" height="50%")
+
+<img alt="System" src="pictures/Tracking_error_nl_perturbated.png" width="50%" height="50%"> </img>
 
 ### 3. Customize Controllers
 
