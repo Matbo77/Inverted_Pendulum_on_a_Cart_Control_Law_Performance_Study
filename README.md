@@ -63,19 +63,7 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 - Setpoint step: return to the **equilibrium position** from an initial condition with an angle θ0 = 60° and zero velocities.
 
 
-## 📈 Performance Metrics
-
-- **Rise time**
-- **Overshoot**
-- **Settling time**
-- **Steady-state error**
-- **Robustness to:**
-  - Mass/length uncertainties (±10-20%)
-
----
-
-
-### Visualize Results
+### 📈 Visualize Results
 
 <!-- - Time-domain responses (pendulum angle, cart position).
 - Control effort plots.
@@ -84,6 +72,16 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 <img alt="System" src="pictures/Tracking_error_nonlin.png" width="50%" height="50%"> </img>
 
 <img alt="System" src="pictures/Tracking_error_nonlin_perturbed.png" width="50%" height="50%"> </img>
+
+The performance metrics that can be observed and computed are the following:
+- **Rise time**
+- **Overshoot**
+- **Settling time**
+- **Steady-state error**
+- **Robustness to:**
+  - Mass/length uncertainties (±10-20%)
+  - Disturbance that appears at t_pert=2.5s
+
 
 ---
 
