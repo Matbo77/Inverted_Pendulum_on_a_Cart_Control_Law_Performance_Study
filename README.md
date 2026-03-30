@@ -111,7 +111,7 @@ mpc_study_case_main;
 - Robustness analysis (Monte Carlo simulations). -->
 
 <img alt="System" src="pictures/Tracking_error_nl_unperturbated.png" width="50%" height="50%"> </img>
-![Control of a disturbed nonlinear system](pictures/Tracking_error_nl_perturbated.png  width="50%" height="50%")
+![Control of a disturbed nonlinear system](pictures/Tracking_error_nl_perturbated.png)
 
 <img alt="System" src="pictures/Tracking_error_nl_perturbated.png" width="50%" height="50%"> </img>
 
