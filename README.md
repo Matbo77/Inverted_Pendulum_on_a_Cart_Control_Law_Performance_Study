@@ -30,7 +30,7 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 - **State-space representation** (linearized around the upright equilibrium)
 - **Physical parameters**: mass, length, gravity, friction, etc.
 
-<img alt="System" src="pictures/system_cart_invert_pendulum.png" width="70%" height="70%"> </img>
+<img alt="System" src="pictures/system_cart_invert_pendulum.png" width="40%" height="40%"> </img>
 
 ---
 
