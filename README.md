@@ -4,7 +4,7 @@ Comparative analysis of different control strategies (state feedback, LQR, MPC) 
  <a href= "https://img.shields.io/badge/github-repo-blue?logo=github"> <img src="https://img.shields.io/badge/github-repo-blue?logo=github" alt="GitHub Badge"/></a>
 <a href= "https://img.shields.io/badge/MATLAB-R_2022b-orange"> <img src="https://img.shields.io/badge/MATLAB-R_2022b-orange" alt="Matlab Badge"/></a>
 <a href= "https://img.shields.io/badge/Octave-R"> <img src="https://img.shields.io/badge/Octave-R" alt="Octave Badge"/></a>
-<a href= "https://img.shields.io/badge/License-Apache--2.0-yellow"> <img src="https://img.shields.io/badge/License-Apache--2.0-yellow" alt="License Badge"/></a>
+<a href= "https://img.shields.io/badge/MIT-yellow"> <img src="https://img.shields.io/badge/MIT-yellow" alt="License Badge"/></a>
 
 ---
 
