@@ -56,6 +56,11 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 
 ---
 
+## Trajectory scenario
+
+- Setpoint step: return to the **equilibrium position** from an initial condition with an angle θ0 = 60° and zero velocities.
+
+
 ## 📈 Performance Metrics
 
 - **Rise time**
@@ -64,7 +69,6 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 - **Steady-state error**
 - **Robustness to:**
   - Mass/length uncertainties (±10-20%)
-  - External force disturbances (step/sinusoidal)
 
 ---
 
@@ -108,13 +112,8 @@ mpc_study_case_main;
 
 Modify controller tuning in:
 
-- `state_feedback_design.m`
-- `mpc_design.m`
-- `offset_free_mpc_design.m`
-
----
-
-
+- `mpc_study_case_main.m`
+- `mpc_study_case_nl.m`
 
 ---
 
@@ -137,7 +136,6 @@ Mammeri de Tizi-Ouzou, Algérie. 2016.
 : étude comparative avec les régulateurs classiques”. In: Mémoire de
 Magister filière génie électrique. Université M’HAMED BOUGARABOUMERDES,
 Algérie. 2013.
-3.
 
 ---
 
@@ -145,9 +143,10 @@ Algérie. 2013.
 
 Contributions are welcome!
 
-- New controller implementations including nonlinear MPC (NMPC), or sliding mode control (SMC).
-- Improved robustness tests.
-- Asses performance on more comprehensive reference trajectories
+Future improvements could include:
+- New controller implementations including **nonlinear MPC (NMPC)**, or sliding mode control (SMC),
+- Improved robustness tests,
+- Assess controllers tracking performance on more comprehensive reference trajectories,
 - Documentation enhancements.
 
 ---
