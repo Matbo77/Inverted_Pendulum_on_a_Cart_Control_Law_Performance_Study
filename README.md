@@ -74,6 +74,28 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 
 ---
 
+
+### Visualize Results
+
+<!-- - Time-domain responses (pendulum angle, cart position).
+- Control effort plots.
+- Robustness analysis (Monte Carlo simulations). -->
+
+<img alt="System" src="pictures/Tracking_error_nonlin.png" width="50%" height="50%"> </img>
+
+<img alt="System" src="pictures/Tracking_error_nonlin_perturbed.png" width="50%" height="50%"> </img>
+
+---
+
+<!--  ## 📝 Key Findings
+
+- **State Feedback**: Simple but sensitive to model errors.
+- **MPC**: Better constraint handling but computationally intensive.
+- **Offset-Free MPC**: Eliminates steady-state errors; robust to disturbances.
+- **Constrained Offset-Free MPC**: Best overall robustness and performance. 
+
+--- -->
+
 ## 🛠️ Setup & Requirements
 
 ### Prerequisites
@@ -104,18 +126,8 @@ mpc_study_case_main;
 
 -  The uncertainties/disturbances can be adjust in mpc_study_case_nl.m.
 
-### 2. Visualize Results
 
-<!-- - Time-domain responses (pendulum angle, cart position).
-- Control effort plots.
-- Robustness analysis (Monte Carlo simulations). -->
-
-<img alt="System" src="pictures/Tracking_error_nonlin.png" width="50%" height="50%"> </img>
-![Control of a disturbed nonlinear system](pictures/Tracking_error_nl_perturbated.png)
-
-<img alt="System" src="pictures/Tracking_error_nonlin_perturbed.png" width="50%" height="50%"> </img>
-
-### 3. Customize Controllers
+### 2. Customize Controllers
 
 Modify controller tuning in:
 
@@ -124,14 +136,6 @@ Modify controller tuning in:
 
 ---
 
-<!--  ## 📝 Key Findings
-
-- **State Feedback**: Simple but sensitive to model errors.
-- **MPC**: Better constraint handling but computationally intensive.
-- **Offset-Free MPC**: Eliminates steady-state errors; robust to disturbances.
-- **Constrained Offset-Free MPC**: Best overall robustness and performance. 
-
---- -->
 
 ## 📚 References
 
