@@ -84,7 +84,7 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 
 1. Clone this repository:
   ```bash
-   git clone https://github.com/yourusername/inverted-pendulum-control.git
+   git clone https://github.com/Matbo77/Inverted_Pendulum_on_a_Cart_Control_Law_Performance_Study.git
   ```
 2. Open Matlab/Octave and navigate to the project folder.
 
@@ -100,7 +100,7 @@ Run the main script to compare all controllers:
 mpc_study_case_main;
 ```
 
-- Adjust parameters in `params.m` for uncertainties/disturbances.
+-  The uncertainties/disturbances can be adjust in mpc_study_case_nl.m.
 
 ### 2. Visualize Results
 
@@ -117,14 +117,14 @@ Modify controller tuning in:
 
 ---
 
-## 📝 Key Findings
+<!--  ## 📝 Key Findings
 
 - **State Feedback**: Simple but sensitive to model errors.
 - **MPC**: Better constraint handling but computationally intensive.
 - **Offset-Free MPC**: Eliminates steady-state errors; robust to disturbances.
-- **Constrained Offset-Free MPC**: Best overall robustness and performance.
+- **Constrained Offset-Free MPC**: Best overall robustness and performance. 
 
----
+--- -->
 
 ## 📚 References
 
