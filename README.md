@@ -26,7 +26,7 @@ Additionally, the robustness of each controller is evaluated under **model param
 ## 🔧 System Description
 
 The inverted pendulum on a cart is a classic control problem with nonlinear dynamics. The system is modeled using:
-
+- **Lagrange equations**
 - **State-space representation** (linearized around the upright equilibrium)
 - **Physical parameters**: mass, length, gravity, friction, etc.
 
