@@ -58,7 +58,7 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 
 ---
 
-## Trajectory scenario
+## 🚩Trajectory scenario
 
 - Setpoint step: return to the **equilibrium position** from an initial condition with an angle θ0 = 60° and zero velocities.
 
