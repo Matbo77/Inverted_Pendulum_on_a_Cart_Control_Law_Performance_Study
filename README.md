@@ -13,11 +13,11 @@ Comparative analysis of different control strategies (state feedback, LQR, MPC) 
 This project investigates the performance of various control laws for stabilizing an **inverted pendulum on a cart**, using the **linearized dynamics** of the inherently nonlinear system. 
 The study compares:
 
-- **State Feedback Control**
-- **Linear Quadratic Regulator with Integrator (LQR)**
+- **State Feedback Control (SF)**
+- **Linear Quadratic Regulator and with Integrator (LQR and LQRI)**
 - **Model Predictive Control (MPC)**
-- **Offset-Free MPC with Integrator**
-- **Constrained Offset-Free MPC**
+- **Offset-Free MPC with Integrator (OFMPC)**
+- **Constrained Offset-Free MPC (COFMPC)**
 
 Additionally, the robustness of each controller is evaluated under **model parameter uncertainties** and **external disturbances**.
 
@@ -29,6 +29,8 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 
 - **State-space representation** (linearized around the upright equilibrium)
 - **Physical parameters**: mass, length, gravity, friction, etc.
+
+<img alt="System" src="pictures/system_cart_invert_pendulum.png" width="70%" height="70%"> </img>
 
 ---
 
@@ -52,7 +54,7 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 ### 4. **Constrained Offset-Free MPC**
 
 - Combines offset-free properties with **input/output constraints**.
-- Evaluates robustness to parameter mismatches.
+<!-- - Evaluates robustness to parameter mismatches. -->
 
 ---
 
