@@ -110,10 +110,10 @@ mpc_study_case_main;
 - Control effort plots.
 - Robustness analysis (Monte Carlo simulations). -->
 
-<img alt="System" src="pictures/Tracking_error_nl_unperturbated.png" width="50%" height="50%"> </img>
+<img alt="System" src="pictures/Tracking_error_nonlin.png" width="50%" height="50%"> </img>
 ![Control of a disturbed nonlinear system](pictures/Tracking_error_nl_perturbated.png)
 
-<img alt="System" src="pictures/Tracking_error_nl_perturbated.png" width="50%" height="50%"> </img>
+<img alt="System" src="pictures/Tracking_error_nonlin_perturbed.png" width="50%" height="50%"> </img>
 
 ### 3. Customize Controllers
 
