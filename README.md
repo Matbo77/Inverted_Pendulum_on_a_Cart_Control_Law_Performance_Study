@@ -54,10 +54,10 @@ $$
 with
 
 $$
-D(\theta) = l \left( M + m\sin^2(\theta) \right)
+D(\theta) = l \left( M + m\sin^2(\theta) \right),
 $$
 
-Where:
+where:
 - $M$: Mass of the cart
 - $m$: Mass of the pendulum
 - $l$: Length of the pendulum rod
