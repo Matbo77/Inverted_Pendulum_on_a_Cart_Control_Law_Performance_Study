@@ -32,6 +32,39 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 
 <img alt="System" src="pictures/system_cart_invert_pendulum.png" width="40%" height="40%"> </img>
 
+The nonlinear dynamics of the inverted pendulum on a cart are derived using the Lagrangian method:
+
+$$
+\begin{cases}
+(M + m)\ddot{x} + ml\ddot{\theta}\cos(\theta) - ml\dot{\theta}^2\sin(\theta) = F(t) - \psi\dot{x} \\
+ml^2\ddot{\theta} + ml\ddot{x}\cos(\theta) - mgl\sin(\theta) = -\phi\dot{\theta}
+\end{cases}
+$$
+
+After simplification, the system is described by:
+
+$$
+\begin{cases}
+\ddot{x} = \frac{1}{D(\theta)} \left( ml\sin(\theta)\dot{\theta}^2 - mg\cos(\theta)\sin(\theta) - \psi\dot{x} + F(t) \right) \\
+\ddot{\theta} = -\frac{\cos(\theta)}{D(\theta)} \left( ml\sin(\theta)\dot{\theta}^2 - mg\cos(\theta)\sin(\theta) - \psi\dot{x} + F(t) \right) - \frac{g}{l}\sin(\theta) - \frac{1}{ml^2}\phi\dot{\theta}
+\end{cases}
+$$
+
+with
+$$
+D(\theta) = l \left( M + m\sin^2(\theta) \right)
+$$
+
+Where:
+- \( M \): Mass of the cart
+- \( m \): Mass of the pendulum
+- \( l \): Length of the pendulum rod
+- \( g \): Gravitational acceleration
+- \( F(t) \): External force applied to the cart
+- \( \psi \): Friction coefficient for the cart
+- \( \phi \): Friction coefficient for the pendulum joint
+- \( \theta \): Pendulum angle from vertical
+- \( x \): Cart position
 ---
 
 ## 📊 Control Strategies
@@ -44,7 +77,6 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 ### 2. **Model Predictive Control (MPC)**
 
 - Optimizes control actions over a finite horizon.
-- Handles constraints explicitly.
 
 ### 3. **Offset-Free MPC with Integrator**
 
@@ -54,7 +86,7 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 ### 4. **Constrained Offset-Free MPC**
 
 - Combines offset-free properties with **input/output constraints**.
-<!-- - Evaluates robustness to parameter mismatches. -->
+<!-- - Evaluates robustness to parameter mismatches. - Handles constraints explicitly. -->
 
 ---
 
