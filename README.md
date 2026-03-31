@@ -132,7 +132,7 @@ The performance metrics that can be observed and computed are the following:
 
 ### Prerequisites
 
-- **Matlab R2020a+** or **GNU Octave 6.0+**
+- **Matlab R2022a+** or **GNU Octave 6.0+**
 - **Control System Toolbox** (Matlab)
 - **Optimization Toolbox** (for MPC)
 
