@@ -25,7 +25,8 @@ Additionally, the robustness of each controller is evaluated under **model param
 
 ## 🔧 System Description
 
-The inverted pendulum on a cart is a classic control problem with nonlinear dynamics. The system is modeled using:
+The inverted pendulum on a cart is a classic control problem with nonlinear dynamics. 
+The system is modeled using:
 - **Lagrange equations**
 - **State-space representation** (linearized around the upright equilibrium)
 - **Physical parameters**: mass, length, gravity, friction, etc.
@@ -33,7 +34,6 @@ The inverted pendulum on a cart is a classic control problem with nonlinear dyna
 <img alt="System" src="pictures/system_cart_invert_pendulum.png" width="40%" height="40%"> </img>
 
 The nonlinear dynamics of the inverted pendulum on a cart are derived using the Lagrangian method:
-
 $$
 \begin{cases}
 (M + m)\ddot{x} + ml\ddot{\theta}\cos(\theta) - ml\dot{\theta}^2\sin(\theta) = F(t) - \psi\dot{x} \\
@@ -42,7 +42,6 @@ ml^2\ddot{\theta} + ml\ddot{x}\cos(\theta) - mgl\sin(\theta) = -\phi\dot{\theta}
 $$
 
 After simplification, the system is described by:
-
 $$
 \begin{cases}
 \ddot{x} = \frac{1}{D(\theta)} \left( ml\sin(\theta)\dot{\theta}^2 - mg\cos(\theta)\sin(\theta) - \psi\dot{x} + F(t) \right) \\
@@ -56,15 +55,15 @@ D(\theta) = l \left( M + m\sin^2(\theta) \right)
 $$
 
 Where:
-- \( M \): Mass of the cart
-- \( m \): Mass of the pendulum
-- \( l \): Length of the pendulum rod
-- \( g \): Gravitational acceleration
-- \( F(t) \): External force applied to the cart
-- \( \psi \): Friction coefficient for the cart
-- \( \phi \): Friction coefficient for the pendulum joint
-- \( \theta \): Pendulum angle from vertical
-- \( x \): Cart position
+- \( $M$ \): Mass of the cart
+- \( $m$ \): Mass of the pendulum
+- \( $l$ \): Length of the pendulum rod
+- \( $g$ \): Gravitational acceleration
+- \( $F(t)$ \): External force applied to the cart
+- \( $\psi$ \): Friction coefficient for the cart
+- \( $\phi$ \): Friction coefficient for the pendulum joint
+- \( $\theta$ \): Pendulum angle from vertical
+- \( $x$ \): Cart position
 ---
 
 ## 📊 Control Strategies
