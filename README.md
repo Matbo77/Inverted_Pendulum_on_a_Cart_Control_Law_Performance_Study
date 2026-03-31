@@ -2,7 +2,7 @@
 Comparative analysis of different control strategies (state feedback, LQR, MPC) to equilibrate an inverted pendulum system mounted on a movable cart.
 
  <a href= "https://img.shields.io/badge/github-repo-blue?logo=github"> <img src="https://img.shields.io/badge/github-repo-blue?logo=github" alt="GitHub Badge"/></a>
-<a href= "https://img.shields.io/badge/MATLAB-R_2022b-orange"> <img src="https://img.shields.io/badge/MATLAB-R_2022b-orange" alt="Matlab Badge"/></a>
+<a href= "https://img.shields.io/badge/MATLAB-R_2022a-orange"> <img src="https://img.shields.io/badge/MATLAB-R_2022b-orange" alt="Matlab Badge"/></a>
 <a href= "https://img.shields.io/badge/Octave-R"> <img src="https://img.shields.io/badge/Octave-R" alt="Octave Badge"/></a>
 <a href= "https://img.shields.io/badge/License-MIT-yellow"> <img src="https://img.shields.io/badge/License-MIT-yellow" alt="License Badge"/></a>
 
