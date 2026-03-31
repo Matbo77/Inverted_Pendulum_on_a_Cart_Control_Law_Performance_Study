@@ -52,20 +52,21 @@ $$
 $$
 
 with
+
 $$
 D(\theta) = l \left( M + m\sin^2(\theta) \right)
 $$
 
 Where:
-- \( $M$ \): Mass of the cart
-- \( $m$ \): Mass of the pendulum
-- \( $l$ \): Length of the pendulum rod
-- \( $g$ \): Gravitational acceleration
-- \( $F(t)$ \): External force applied to the cart
-- \( $\psi$ \): Friction coefficient for the cart
-- \( $\phi$ \): Friction coefficient for the pendulum joint
-- \( $\theta$ \): Pendulum angle from vertical
-- \( $x$ \): Cart position
+- $M$: Mass of the cart
+- $m$: Mass of the pendulum
+- $l$: Length of the pendulum rod
+- $g$: Gravitational acceleration
+- $F(t)$: External force applied to the cart
+- $\psi$: Friction coefficient for the cart
+- $\phi$: Friction coefficient for the pendulum joint
+- $\theta$: Pendulum angle from vertical
+- $x$: Cart position
 ---
 
 ## 📊 Control Strategies
