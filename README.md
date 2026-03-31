@@ -73,8 +73,8 @@ Where:
 
 ### 1. **State Feedback Control**
 
-- Uses **pole placement** or **LQR** for stabilization.
-- Assumes perfect model knowledge.
+- Uses **pole placement** based on the approximate linearized system for stabilization.
+<!-- - Assumes perfect model knowledge. **LQR** -->
 
 ### 2. **Model Predictive Control (MPC)**
 
@@ -187,7 +187,7 @@ Algérie. 2013.
 Contributions are welcome!
 
 Future improvements could include:
-- New controller implementations including **nonlinear MPC (NMPC)**, or sliding mode control (SMC),
+- New controller implementations including **feedback linearization**, **nonlinear MPC (NMPC)**, or sliding mode control (SMC),
 - Improved robustness tests,
 - Assess controllers tracking performance on more comprehensive reference trajectories,
 - Documentation enhancements.
