@@ -166,19 +166,6 @@ Modify controller tuning in:
 - `mpc_study_case_main.m`
 - `mpc_study_case_nl.m`
 
----
-
-
-## 📚 References
-
-1. Menouar MEZIANI and Mourad AKKOUL. “Modélisation et simulation
-d’un pendule inversé”. In: Mémoire de fin d’étude de MASTER
-ACADEMIQUE Spécialité : AUTOMATIQUE. Université Mouloud
-Mammeri de Tizi-Ouzou, Algérie. 2016.
-2. Ammar RAMDANI. “Commande prédictive des systèmes dynamiques
-: étude comparative avec les régulateurs classiques”. In: Mémoire de
-Magister filière génie électrique. Université M’HAMED BOUGARABOUMERDES,
-Algérie. 2013.
 
 ---
 
@@ -193,5 +180,19 @@ Future improvements could include:
 - Documentation enhancements.
 
 ---
+
+## 📚 References
+
+1. Menouar MEZIANI and Mourad AKKOUL. “Modélisation et simulation
+d’un pendule inversé”. In: Mémoire de fin d’étude de MASTER
+ACADEMIQUE Spécialité : AUTOMATIQUE. Université Mouloud
+Mammeri de Tizi-Ouzou, Algérie. 2016.
+2. Ammar RAMDANI. “Commande prédictive des systèmes dynamiques
+: étude comparative avec les régulateurs classiques”. In: Mémoire de
+Magister filière génie électrique. Université M’HAMED BOUGARABOUMERDES,
+Algérie. 2013.
+
+---
+
 
 
