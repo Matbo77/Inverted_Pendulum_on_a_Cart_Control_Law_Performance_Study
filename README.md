@@ -34,6 +34,7 @@ The system is modeled using:
 <img alt="System" src="pictures/system_cart_invert_pendulum.png" width="40%" height="40%"> </img>
 
 The nonlinear dynamics of the inverted pendulum on a cart are derived using the Lagrangian method:
+
 $$
 \begin{cases}
 (M + m)\ddot{x} + ml\ddot{\theta}\cos(\theta) - ml\dot{\theta}^2\sin(\theta) = F(t) - \psi\dot{x} \\
@@ -42,6 +43,7 @@ ml^2\ddot{\theta} + ml\ddot{x}\cos(\theta) - mgl\sin(\theta) = -\phi\dot{\theta}
 $$
 
 After simplification, the system is described by:
+
 $$
 \begin{cases}
 \ddot{x} = \frac{1}{D(\theta)} \left( ml\sin(\theta)\dot{\theta}^2 - mg\cos(\theta)\sin(\theta) - \psi\dot{x} + F(t) \right) \\
