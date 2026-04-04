@@ -15,7 +15,6 @@ hold off
 legend('\theta_{MPC} (°)','\theta_{SF}','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}') %,'\theta des'
 xlabel('Time (s)')
 ylabel("Angle \theta (°)")
-
 title(titre)
 %title('')
 

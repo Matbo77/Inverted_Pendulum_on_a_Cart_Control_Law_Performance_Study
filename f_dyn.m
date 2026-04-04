@@ -6,8 +6,8 @@ function dXk = f_dyn(t,Xk,uk)
     % parameter t (time) just to be used in ode45
 
 
-    % Const
-    m = 0.2; # pendulum weight
+    % Const(real) physical parameters
+    m_pend = 0.2; # pendulum weight
     M = 2.3; # cart weight
     l_pend = 0.2; % pendulum rod length
     g = 9.81; # gravitationnal acceleration on earth
@@ -19,11 +19,11 @@ function dXk = f_dyn(t,Xk,uk)
     theta_k = Xk(3);
     dtheta_k = Xk(4);
 
-    D = l_pend*(M + m*(sin(theta_k))^2);
+    D_theta = l_pend*(M + m_pend*(sin(theta_k))^2);
 
     dXk = [ dx_k ;
-        l_pend/D*(m*l_pend*sin(theta_k)*dtheta_k^2 - m*g*sin(theta_k)*cos(theta_k) - phi*dx_k + uk);
+        l_pend/D_theta*(m_pend*l_pend*sin(theta_k)*dtheta_k^2 - m_pend*g*sin(theta_k)*cos(theta_k) - phi*dx_k + uk);
         dtheta_k ;
-        -cos(theta_k)/D*(m*l_pend*sin(theta_k)*dtheta_k^2-m*g*sin(theta_k)*cos(theta_k)-psi*dx_k+uk)+g/l_pend*sin(theta_k)-1/(m*l_pend^2)*phi*dtheta_k];
+        -cos(theta_k)/D_theta*(m_pend*l_pend*sin(theta_k)*dtheta_k^2-m_pend*g*sin(theta_k)*cos(theta_k)-psi*dx_k + uk)+g/l_pend*sin(theta_k)-1/(m_pend*l_pend^2)*phi*dtheta_k];
 
 end

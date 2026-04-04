@@ -14,7 +14,8 @@ Gamma_u = 1;
 % Uncertainties on dynamical prediction model
 % négliger frottement phi = psi = 0
 % imprécision masses / uncertainties on weight
-m_pend_imp = 0*m_pend; % masse négligé complétement
+% m_pend_imp = 0*m_pend; % masse négligé complétement
+m_pend_imp = 0.7*m_pend;
 M_imp = 0.7*M; %0.9
 l_pend_imp = 0.7*l_pend; %1.3
 
@@ -38,17 +39,18 @@ pert_theta = zeros(4,N);
 %pert_theta(3,round(t_pert/Te):end) = 1*pi/180;
 pert_theta(4,round(t_pert/Te):end) = allow_pert*5*pi/180;
 
-%% State feedback SF
-rank(ctrb(A,B))
+%% State Feedback (SF)
+rank(ctrb(A,B));
 t5des = 0.4; %entre 0.3 et 0.5s
 %poles_des_disc = [exp(-6.3/t5des*Te) exp(-0/t5des*Te) exp(-6.31/t5des*Te)  exp(-6.32*Te) ]; %continous to discrete
-poles_des_disc = [exp(-7.76/t5des*Te) exp(-7.77/t5des*Te) exp(-7.78/t5des*Te)  exp(-7.75*Te) ];
+poles_des_disc = [exp(-7.76/t5des*Te) exp(-7.77/t5des*Te) exp(-7.78/t5des*Te)  exp(-7.75/t5des*Te) ];
+%poles_des_disc = [exp(-100/t5des*Te) exp(-100/t5des*Te) exp(-50/t5des*Te)  exp(-50/t5des*Te) ];
 %P = poly([-7.76/t5des,-7.77/t5des,-7.78/t5des,-7.75/t5des]);
 Kd_SF = place(Ad_incert,Bd_incert,poles_des_disc);
 
 %1/(Cd*(eye(n)-Ad+Bd*Kd_SF)^(-1)*Bd)
 %eig(Ad_incert-Bd_incert*Kd_SF)
-ss_d_SF = ss(Ad_incert-Bd_incert*Kd_SF, [0 0 1 0]',Cd,zeros(1,1),Te);
+ss_d_SF = ss(Ad_incert-Bd_incert*Kd_SF,[0 0 1 0]',Cd,zeros(1,1),Te);
 tf_d_SF = tf(ss_d_SF);
 %zero(tf_d_SF)
 %figure();step(ss_d_SF);grid()
@@ -67,12 +69,12 @@ for j=1:(N-p)
     else
         Xk = RK4(Xk,uk,Te) + pert_theta(:,j); % state update non-lin + pert
     end
-    list_U_SF= [list_U_SF ; uk];
+    list_U_SF = [list_U_SF ; uk];
     theta_SF = [theta_SF ; Xk(3)];
     x_SF= [x_SF ; Xk(1)];
 end
 
-% MPC sur non lin avec incertitudes prediction
+% MPC sur syst non lin avec incertitudes prediction
 % dans fonction de coût mettre commande et pas débit de commande
 %p =40;
 last_element = Cd;
@@ -132,7 +134,7 @@ Be = [Bd_incert ; zeros(Ny,1)];
 %Ce = [1 0 0 0 -1 0 ; 0 0 1 0 0 -1];
 Ce = [0 0 1 0 -1]; %e_theta = theta - theta des
 
-Q = 400; %4000 % Si Q grand syst plus rapide
+Q = 400; %4000 % Si Q grand, syst plus rapide
 Qf = 600; %4000
 R = 0.1;
 Qe = Ce'*Q*Ce; % Q
@@ -432,3 +434,82 @@ end
 % xlabel('time (s)')
 
 
+
+% Feedback linearization
+
+list_U_feed_lin = [];
+x_feed_lin = [X0(1)];
+theta_feed_lin= [X0(3)];
+Xk = X0;
+
+%2nd order
+xi_feed_lin = 0.7;
+tr_5_feed_lin = 0.18; % response time 0.15, 0.2 (s)
+w0_feed_lin = 3/tr_5_feed_lin;
+
+
+for j=1:(N-p)
+
+
+    dx_k = Xk(2);
+    theta_k =  Xk(3);
+    dtheta_k = Xk(4);
+
+
+    if allow_pert==1
+
+      % with parameters uncertainties
+      D_theta = l_pend_imp*(M_imp + m_pend_imp*(sin(theta_k))^2);
+      uk = -m_pend_imp*l_pend_imp*sin(theta_k)*dtheta_k^2 + m_pend_imp*g*sin(theta_k)*cos(theta_k) + psi*dx_k + D_theta/cos(theta_k)*(2*xi_feed_lin*w0_feed_lin*dtheta_k + w0_feed_lin^2*theta_k + g/l_pend_imp*sin(theta_k)-1/(m_pend_imp*l_pend_imp^2)*phi*dtheta_k);
+
+    else
+
+      %without parameters uncertainties
+      D_theta = l_pend*(M + m_pend*(sin(theta_k))^2);
+      uk = -m_pend*l_pend*sin(theta_k)*dtheta_k^2 + m_pend*g*sin(theta_k)*cos(theta_k) + psi*dx_k + D_theta/cos(theta_k)*(2*xi_feed_lin*w0_feed_lin*dtheta_k + w0_feed_lin^2*theta_k + g/l_pend*sin(theta_k)-1/(m_pend*l_pend^2)*phi*dtheta_k);
+
+    end
+
+
+
+    %f_dyn(0,Xk,uk)
+
+    list_U_feed_lin = [list_U_feed_lin, uk];
+
+    if linear==1
+        Xk = Ad*Xk + Bd*uk + pert_theta(:,j); % state update lin
+    else
+        Xk = RK4(Xk,uk,Te) + pert_theta(:,j); % state update non-lin + pert
+    end
+
+
+    theta_feed_lin = [theta_feed_lin ; Xk(3)];
+    x_feed_lin = [x_feed_lin; Xk(1)];
+end
+
+
+% Constrained off-set free Nonlinear MPC (NMPC)
+
+##N_NMPC = 10;
+##u_NMPC = [];
+##list_Uopt_NMPC = [];
+##x_NMPC = [X0(1)];
+##theta_NMPC= [X0(3)];
+##
+##for j=1:(N-p)
+##
+##    liste_u_NMPC = 0.1;
+##
+##    uk = liste_u_NMPC(1);
+##    list_Uopt_NMPC = [list_Uopt_NMPC, uk];
+##
+##    if linear==1
+##        Xk = Ad*Xk + Bd*uk + pert_theta(:,j); % state update lin
+##    else
+##        Xk = RK4(Xk,uk,Te) + pert_theta(:,j); % state update non-lin + pert
+##    end
+##
+##
+##    theta_NMPC = [theta_NMPC ; Xk(3)];
+##    x_NMPC = [x_NMPC; Xk(1)];
+##end

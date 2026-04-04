@@ -34,12 +34,14 @@ Cd = ss_d.C;
 Dd = ss_d.D;
 rank(ctrb(Ad,Bd));
 
+normalize_angle = @(angle)  mod(angle+pi,2*pi)-pi; %between, [-pi,pi]
+
 [Ny,~] = size(Cd);
 [~,Nu] = size(Bd);
 
 % CI
 x_0 = 0.0;
-theta_0 = 60*pi/180; %40
+theta_0 = 40*pi/180; %40 %60
 X0 = [x_0 ; 0 ; theta_0 ; 0];
 t_f = 6;
 T = 0:Te:t_f;
@@ -78,7 +80,7 @@ allow_pert = 0;
 t_f = 2;
 plot_subtitle = 'for the nonlinear system';
 run mpc_study_case_nl.m
-% Retour d'Etat diverge
+% Retour d'Etat diverge en cas de grosse incertitudes paramètriques
 figure();
 subplot(2,1,1)
 plot(T(1:end-p),180/pi*theta_nonlin(1:end-1),'LineWidth',2)
@@ -88,9 +90,10 @@ plot(T(1:end-p),180/pi*theta_nonlin_LQR2(1:end-1),'LineWidth',2,'linestyle','--'
 plot(T(1:end-p),180/pi*theta_nonlin_LQRI(1:end-1),'LineWidth',2)
 plot(T(1:end-p),180/pi*theta_OSF(1:end-1),'LineWidth',2)
 plot(T(1:end-p),180/pi*theta_COSF(1:end-1),'LineWidth',2)
+plot(T(1:end-p),180/pi*theta_feed_lin(1:end-1),'LineWidth',2)
 %plot(T(1:end-p),180/pi*thetades(1:end-p))
 hold off
-legend('\theta_{MPC} ( )','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}') %,'\theta des'
+legend('\theta_{MPC} ( )','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}','\theta_{feed lin}') %,'\theta des'
 xlabel('Time (s)')
 ylabel("Angle (in °)")
 title('Asservissement système non-linéaire')
@@ -103,9 +106,10 @@ plot(T(1:end-p),Uopt_nonlin_LQR2,'LineWidth',2,'linestyle','--')
 plot(T(1:end-p),Uopt_nonlin_LQRI,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_OSF,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_COSF,'LineWidth',2)
+plot(T(1:end-p),list_U_feed_lin,'LineWidth',2)
 hold off
 grid
-legend('Uopt_{MPC}','Uopt_{LQR}','Uopt_{LQRI}','Uopt_{OSFMPC}','Uopt_{COSFMPC}')
+legend('Uopt_{MPC}','Uopt_{LQR}','Uopt_{LQRI}','Uopt_{OSFMPC}','Uopt_{COSFMPC}','U_{feed lin}')
 ylabel("Control input U")
 xlabel('Time (s)')
 
@@ -117,6 +121,7 @@ allow_pert = 1;
 plot_subtitle = 'for the nonlinear perturbed system';
 t_f = 4.5;
 run mpc_study_case_nl.m
+
 figure();
 subplot(2,1,1)
 plot(T(1:end-p),180/pi*theta_nonlin(1:end-1),'LineWidth',2)
@@ -126,9 +131,10 @@ plot(T(1:end-p),180/pi*theta_nonlin_LQR2(1:end-1),'LineWidth',2,'linestyle','--'
 plot(T(1:end-p),180/pi*theta_nonlin_LQRI(1:end-1),'LineWidth',2)
 plot(T(1:end-p),180/pi*theta_OSF(1:end-1),'LineWidth',2)
 plot(T(1:end-p),180/pi*theta_COSF(1:end-1),'LineWidth',2)
+plot(T(1:end-p),180/pi*theta_feed_lin(1:end-1),'LineWidth',2)
 %plot(T(1:end-p),180/pi*thetades(1:end-p))
 hold off
-legend('\theta_{MPC} ( )','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}') %,'\theta des'
+legend('\theta_{MPC}','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}','\theta_{feed lin}') %,'\theta des'
 xlabel('Time (s)')
 ylabel("Angle (in °)")
 title('Asservissement système non-linéaire perturbé')
@@ -141,16 +147,57 @@ plot(T(1:end-p),Uopt_nonlin_LQR2,'LineWidth',2,'linestyle','--')
 plot(T(1:end-p),Uopt_nonlin_LQRI,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_OSF,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_COSF,'LineWidth',2)
+plot(T(1:end-p),list_U_feed_lin,'LineWidth',2)
 hold off
 grid
-legend('Uopt_{MPC}','Uopt_{LQR}','Uopt_{LQRI}','Uopt_{OSFMPC}','Uopt_{COSFMPC}')
+legend('Uopt_{MPC}','Uopt_{LQR}','Uopt_{LQRI}','Uopt_{OSFMPC}','Uopt_{COSFMPC}','U_{feed lin}')
 ylabel("Control input U")
 xlabel('Time (s)')
 
 run mpc_study_case_plotter_2.m
 
-
 % print("Tracking_error_nonlin_perturbed4.png" ,"-S700,600")
+
+
+% Plot x position
+
+##figure();
+##plot(T(1:end-p),x_nonlin(1:end-1),'LineWidth',2)
+##grid()
+##hold on
+##plot(T(1:end-p),x_nonlin_LQR2(1:end-1),'LineWidth',2,'linestyle','--')
+##plot(T(1:end-p),x_nonlin_LQRI(1:end-1),'LineWidth',2)
+##plot(T(1:end-p),x_OSF(1:end-1),'LineWidth',2)
+##plot(T(1:end-p),x_COSF(1:end-1),'LineWidth',2)
+##hold off
+##legend('x_{MPC}','x_{LQR}','x_{LQRI}','x_{OSFMPC}','x_{COSFMPC}') %,'\theta des'
+##xlabel('Time (s)')
+##ylabel("Position x (m)")
+##title('Asservissement système non-linéaire perturbé')
+
+
+N_start = 10;
+Nsim = N-p+1;
+
+% WIth perturbaiton and parameter uncertainties
+RMSE_SF = sqrt(mean((theta_SF(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+
+RMSE_LQR = sqrt(mean((theta_nonlin_LQR2(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+RMSE_LQRI = sqrt(mean((theta_nonlin_LQRI(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+RMSE_SSMPC = sqrt(mean((theta_nonlin(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+RMSE_OSF = sqrt(mean((theta_OSF(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+RMSE_COSF = sqrt(mean((theta_COSF(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+
+RMSE_feed_lin = sqrt(mean((theta_feed_lin(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+
+%RMSE_NMPC =
+
+
+
+
+
+
+
 
 
 
