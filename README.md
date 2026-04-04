@@ -119,7 +119,7 @@ The performance metrics that can be observed and computed are the following:
 - **Steady-state error**
 - **Robustness to:**
   - Mass/length uncertainties (±10-20%)
-  - Disturbance that appears at t_pert=2.5s
+  - Disturbance that appears on $\theta$ at t_pert=2.5s
 
 
 ---
