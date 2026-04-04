@@ -18,6 +18,7 @@ For now, the study compares:
 - **Model Predictive Control (MPC)**
 - **Offset-Free MPC with Integrator (OSF-MPC)**
 - **Constrained Offset-Free MPC (COSF-MPC)**
+- **Feedback Linearization (feed lin)**
 
 Additionally, the robustness of each controller is evaluated under **model parameter uncertainties** and **external disturbances**.
 
@@ -89,6 +90,10 @@ where:
 
 - Combines offset-free properties with **input/output constraints**.
 <!-- - Evaluates robustness to parameter mismatches. - Handles constraints explicitly. -->
+
+### 5. **Feedback linearization**
+
+- Transformes the nonlinear control system into an equivalent linear control system by a proper choice of input.
 
 ---
 
@@ -174,7 +179,7 @@ Modify controller tuning in:
 Contributions are welcome!
 
 Future improvements could include:
-- New controller implementations including **feedback linearization**, **nonlinear MPC (NMPC)**, or sliding mode control (SMC),
+- New controller implementations including **nonlinear MPC (NMPC)**, or sliding mode control (SMC),
 - Improved robustness tests,
 - Assess controllers tracking performance on more comprehensive reference trajectories,
 - Documentation enhancements.
