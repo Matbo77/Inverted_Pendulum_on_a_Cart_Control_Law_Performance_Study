@@ -99,7 +99,7 @@ where:
 
 ## 🚩Trajectory scenario
 
-- Setpoint step: return to the **equilibrium position** from an initial condition with an angle θ0 = 60° and zero velocities.
+- Setpoint step: return to the **equilibrium position** ($\theta=0$) from an initial condition with an angle $\theta_0 = 60°$ and zero velocities.
 
 
 ### 📈 Visualize Results
