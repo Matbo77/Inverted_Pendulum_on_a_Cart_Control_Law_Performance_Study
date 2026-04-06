@@ -98,7 +98,7 @@ where:
 
 ### 6. **Nonlinear MPC**
 
-- This solves an MPC optimization problem which takes into account the nonlinear dynamics of the inverted pendulum.
+- This solves an MPC optimization problem which takes into account the nonlinear dynamics of the inverted pendulum on a cart.
 
 ---
 
