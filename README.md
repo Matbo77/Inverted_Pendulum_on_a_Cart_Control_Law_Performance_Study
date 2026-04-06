@@ -10,7 +10,7 @@ Comparative analysis of different control strategies (state feedback, LQR, MPC) 
 
 ## 📌 Overview
 
-This project investigates the performance of various control laws for stabilizing an **inverted pendulum on a cart**, using the **linearized dynamics** of the inherently nonlinear system. 
+This project investigates the performance of various control laws for stabilizing an **inverted pendulum on a cart**, using the dynamics of this nonlinear system. 
 For now, the study compares:
 
 - **Linear State Feedback Control (SF)**
