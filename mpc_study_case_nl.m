@@ -34,7 +34,7 @@ Bd_incert = ssd_incert.B;
 % Constant perturbation on theta acceleration
 % Perturbation sur a_theta
 % from time t_pert on
-t_pert = 2.5; % Te 1.2;
+t_pert = 2.0; % Te 1.2;
 pert_theta = zeros(4,N);
 %pert_theta(3,round(t_pert/Te):end) = 1*pi/180;
 pert_theta(4,round(t_pert/Te):end) = allow_pert*5*pi/180;
@@ -332,8 +332,8 @@ H = (S_Delta_u')*Gamma_y*S_Delta_u + Gamma_u*eye(m);
 list_Uopt_COSF = [];
 u_0 = 0;
 
-u_max=80.3; %max command
-u_min = -80.3;
+u_max= 100; %80.3; %max command
+u_min = -100; %-80.3;
 % A_ineq = [];
 % b_ineq = [];
 A_ineq = [  Tri_inf ; -Tri_inf]; %A_ineq;
@@ -444,7 +444,7 @@ Xk = X0;
 
 %2nd order
 xi_feed_lin = 0.7;
-tr_5_feed_lin = 0.18; % response time 0.15, 0.2 (s)
+tr_5_feed_lin = 0.2; % response time 0.15, 0.2 (s)
 w0_feed_lin = 3/tr_5_feed_lin;
 
 
@@ -490,26 +490,68 @@ end
 
 % Constrained off-set free Nonlinear MPC (NMPC)
 
-##N_NMPC = 10;
-##u_NMPC = [];
-##list_Uopt_NMPC = [];
-##x_NMPC = [X0(1)];
-##theta_NMPC= [X0(3)];
-##
-##for j=1:(N-p)
-##
-##    liste_u_NMPC = 0.1;
-##
-##    uk = liste_u_NMPC(1);
-##    list_Uopt_NMPC = [list_Uopt_NMPC, uk];
-##
-##    if linear==1
-##        Xk = Ad*Xk + Bd*uk + pert_theta(:,j); % state update lin
-##    else
-##        Xk = RK4(Xk,uk,Te) + pert_theta(:,j); % state update non-lin + pert
-##    end
-##
-##
-##    theta_NMPC = [theta_NMPC ; Xk(3)];
-##    x_NMPC = [x_NMPC; Xk(1)];
-##end
+if linear == 0
+  N_NMPC = 6;
+  u_NMPC = [];
+  list_Uopt_NMPC = [];
+  x_NMPC = [X0(1)];
+  theta_NMPC= [X0(3)];
+  Xk = X0;
+
+  Aineq = [];
+  bineq = [];
+  Aeq = [];
+  beq = [];
+  lb = []; %[-2,-2];
+  ub = []; %[2,2];
+  nonlcon = [];
+  %options_fmincon = optimoptions('fmincon','Display','iter','Algorithm','sqp'); % Matlab version
+  options_fmincon = optimset('Display', 'iter', 'Algorithm', 'sqp', ...
+  'TolX', 1e-4, ...       % Step tolerance (default is 1e-6)
+   'TolFun', 1e-4);     % Function tolerance (default is 1e-6)); % Octave  version
+  Q_NMPC = 2000; % 2000 4000
+  R_NMPC = 0.1;
+
+
+  X_sequence = propagate_dynamic(X0,zeros(Nu,N_NMPC),N_NMPC,Te);
+  XU_horizon_NMPC = [X_sequence ; zeros(Nu,N_NMPC)]; % (:,1:N_NMPC)
+
+  t_NMPC_start = tic;
+  for k=1:(N-p)
+      %disp("Time :")
+      k
+
+      % Initial guess/warmstart must satisfy the constraints
+      if k==1
+        XU_warmstart_optim = XU_horizon_NMPC;
+
+      else
+        %XU_warmstart_optim = zeros(n+Nu,N_NMPC);
+        %XU_warmstart_optim = [XU_horizon_NMPC(:,2:end), [propagate_dynamic(XU_horizon_NMPC(1:n,end),zeros(Nu,1),1,Te) ; zeros(Nu,1)]];
+
+        XU_warmstart_optim = [propagate_dynamic(Xk,zeros(Nu,N_NMPC),N_NMPC,Te) ; zeros(Nu,N_NMPC)];
+      % XU concatenate
+      endif
+
+      X0_init = Xk;
+      [nonlcon_c, nonlcon_ceq] = nonlcon_NMPC(XU_warmstart_optim, X0_init, N_NMPC, Te);
+      XU_horizon_NMPC = fmincon(@(XU) cost_NMPC_tracking(XU,Xref(:,k:k+N_NMPC),C,Q_NMPC,R_NMPC,N_NMPC),XU_warmstart_optim,Aineq,bineq,Aeq,beq,lb,ub,@(XU) nonlcon_NMPC(XU,X0_init,N_NMPC,Te),options_fmincon);
+
+      % [x,fval,flag,output,lambda,gradient,hessian] = fmincon
+
+      uk = XU_horizon_NMPC(n+1:end,1);
+      list_Uopt_NMPC = [list_Uopt_NMPC, uk];
+
+      if linear==1
+          Xk = Ad*Xk + Bd*uk + pert_theta(:,k); % state update lin
+      else
+          Xk = RK4(Xk,uk,Te) + pert_theta(:,k); % state update non-lin + pert
+      endif
+
+
+      theta_NMPC = [theta_NMPC ; Xk(3)];
+      x_NMPC = [x_NMPC; Xk(1)];
+  endfor
+  t_NMPC = toc(t_NMPC_start);
+  t_NMPC_mean =  t_NMPC/(N-p)
+  endif

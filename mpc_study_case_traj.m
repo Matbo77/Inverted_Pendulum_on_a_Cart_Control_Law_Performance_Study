@@ -18,6 +18,10 @@ end
 % thetades = Yref(2:2:end,1);
 thetades = Yref(1:end,1);
 
+% X0(3)
+
+Xref = 0*pi/180*ones(1,length(T));
+
 % y_1 = Cd*x_1 = Cd*(Ad*x_0 + Bd*u_0)
 % y_1 - Cd*Ad*x_0 = Cd*Bd*u_0
 % (Cd*Bd)'*[y_1 - Cd*Ad*x_0] = (Cd*Bd)'*Cd*Bd*u_0
