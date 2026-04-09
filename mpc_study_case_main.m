@@ -5,6 +5,12 @@ close all
 % Packages loading for Octave
 pkg load control
 pkg load optim
+pkg load video; % Charge le package vidéo pour Octave
+
+% Add functions to the path
+file_path = fileparts(mfilename('fullpath'));
+addpath(strcat(file_path,"\\functions"))
+
 
 %% PB constants
 m_pend = 0.2; %
@@ -13,12 +19,16 @@ l_pend = 0.2; %0.3
 g = 9.81;
 psi = 5*10^(-5);
 phi = 5*10^(-3);
-A = [ 0 1 0 0; 0 -1/M*psi -m_pend*g/M 0 ; 0 0 0 1 ; 0 1/(M*l_pend)*psi g/(M*l_pend)*(m_pend+M) -1/(m_pend*l_pend^2)*phi];
-B = [0 1/M 0 -1/(M*l_pend)]';
+
+% X = [ x tilde ; dx ; theta tilde ; dtheta ]
+%A = [ 0 1 0 0; 0 -1/M*psi -m_pend*g/M 0 ; 0 0 0 1 ; 0 1/(M*l_pend)*psi g/(M*l_pend)*(m_pend+M) -1/(m_pend*l_pend^2)*phi];
+%B = [0 1/M 0 -1/(M*l_pend)]';
+A = [ 0 1 0 0; 0 -psi/M 0 0 ; 0 0 0 1 ; 0 -1/(M*l_pend)*psi 0 -(M+m_pend)/(M*m_pend*l_pend)*phi];
+B = [0 1/M 0 1/(M*l_pend)]';
 [n,~] = size(A);
 
 C = [0 0 1 0];
-% X = [ x tilde ; dx ; theta tilde ; dtheta ]
+
 [Ny,c] = size(C);
 rank(ctrb(A,B));
 rank(ctrb(A',C')); %rank(obsv(A,C))
@@ -96,8 +106,8 @@ plot(T(1:end-p),180/pi*theta_NMPC(1:end-1),'LineWidth',2)
 %plot(T(1:end-p),180/pi*thetades(1:end-p))
 hold off
 legend('\theta_{MPC}','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}','\theta_{feed lin}','\theta_{NMPC}') %,'\theta des'
-xlabel('Time (s)')
-ylabel("Angle (in °)")
+xlabel('Time [s]')
+ylabel("Angle [deg]")
 %title('Asservissement système non-linéaire')
 title('Control of the nonlinear system','fontsize',16)
 %title('')
@@ -105,8 +115,8 @@ title('Control of the nonlinear system','fontsize',16)
 subplot(2,1,2)
 plot(T(1:end-p),list_Uopt_nonlin,'LineWidth',2)
 hold on
-plot(T(1:end-p),Uopt_nonlin_LQR2,'LineWidth',2,'linestyle','--')
-plot(T(1:end-p),Uopt_nonlin_LQRI,'LineWidth',2)
+plot(T(1:end-p),list_U_LQR2,'LineWidth',2,'linestyle','--')
+plot(T(1:end-p),list_U_LQRI,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_OSF,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_COSF,'LineWidth',2)
 plot(T(1:end-p),list_U_feed_lin,'LineWidth',2)
@@ -115,15 +125,15 @@ hold off
 grid
 legend('U_{MPC}','U_{LQR}','U_{LQRI}','U_{OSFMPC}','U_{COSFMPC}','U_{feed lin}','U_{NMPC}')
 ylabel("Control input U")
-xlabel('Time (s)')
+xlabel('Time [s]')
 
 run mpc_study_case_plotter_2.m
 
 N_start = 10;
 Nsim = N-p+1;
 
-% WIth perturbaiton and parameter uncertainties
-RMSE_SF = sqrt(mean((theta_SF(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+% With perturbaiton and parameter uncertainties
+%RMSE_SF = sqrt(mean((theta_SF(N_start:Nsim)-thetades(N_start:Nsim)).^2))
 
 RMSE_LQR = sqrt(mean((theta_nonlin_LQR2(N_start:Nsim)-thetades(N_start:Nsim)).^2))
 RMSE_LQRI = sqrt(mean((theta_nonlin_LQRI(N_start:Nsim)-thetades(N_start:Nsim)).^2))
@@ -160,8 +170,8 @@ plot(T(1:end-p),180/pi*theta_NMPC(1:end-1),'LineWidth',2)
 %plot(T(1:end-p),180/pi*thetades(1:end-p))
 hold off
 legend('\theta_{MPC}','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}','\theta_{feed lin}','\theta_{NMPC}') %,'\theta des'
-xlabel('Time (s)')
-ylabel("Angle (in °)")
+xlabel('Time [s]')
+ylabel("Angle [deg]")
 %title('Asservissement système non-linéaire perturbé')
 title('Control of the disturbed nonlinear system','fontsize',16)
 %title('')
@@ -169,8 +179,8 @@ title('Control of the disturbed nonlinear system','fontsize',16)
 subplot(2,1,2)
 plot(T(1:end-p),list_Uopt_nonlin,'LineWidth',2)
 hold on
-plot(T(1:end-p),Uopt_nonlin_LQR2,'LineWidth',2,'linestyle','--')
-plot(T(1:end-p),Uopt_nonlin_LQRI,'LineWidth',2)
+plot(T(1:end-p),list_U_LQR2,'LineWidth',2,'linestyle','--')
+plot(T(1:end-p),list_U_LQRI,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_OSF,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_COSF,'LineWidth',2)
 plot(T(1:end-p),list_U_feed_lin,'LineWidth',2)
@@ -179,7 +189,7 @@ hold off
 grid
 legend('U_{MPC}','U_{LQR}','U_{LQRI}','U_{OSFMPC}','U_{COSFMPC}','U_{feed lin}','U_{NMPC}')
 ylabel("Control input U")
-xlabel('Time (s)')
+xlabel('Time [s]')
 
 run mpc_study_case_plotter_2.m
 
@@ -202,8 +212,8 @@ plot(T(1:end-p),x_feed_lin(1:end-1),'LineWidth',2)
 plot(T(1:end-p),x_NMPC(1:end-1),'LineWidth',2)
 hold off
 legend('x_{MPC}','x_{LQR}','x_{LQRI}','x_{OSFMPC}','x_{COSFMPC}','x_{feed lin}','x_{NMPC}') %,'\theta des'
-xlabel('Time (s)')
-ylabel("Position x (m)")
+xlabel('Time [s]')
+ylabel("Position x [m]")
 %title('Asservissement système non-linéaire perturbé')
 title('Control of the disturbed nonlinear system','fontsize',16)
 
@@ -211,8 +221,8 @@ title('Control of the disturbed nonlinear system','fontsize',16)
 N_start = 10;
 Nsim = N-p+1;
 
-% WIth perturbaiton and parameter uncertainties
-RMSE_SF = sqrt(mean((theta_SF(N_start:Nsim)-thetades(N_start:Nsim)).^2))
+% With perturbaiton and parameter uncertainties
+%RMSE_SF = sqrt(mean((theta_SF(N_start:Nsim)-thetades(N_start:Nsim)).^2))
 
 RMSE_LQR = sqrt(mean((theta_nonlin_LQR2(N_start:Nsim)-thetades(N_start:Nsim)).^2))
 RMSE_LQRI = sqrt(mean((theta_nonlin_LQRI(N_start:Nsim)-thetades(N_start:Nsim)).^2))
@@ -230,7 +240,28 @@ RMSE_NMPC = sqrt(mean((theta_NMPC(N_start:Nsim)-thetades(N_start:Nsim)).^2))
 
 
 
+% Example plot animated
+##tin = linspace(0, 10, 100);
+##Xin = [linspace(0, 1, 100); 0.1*sin(linspace(0, 2*pi, 100))]';
+##traj_din = [linspace(0, 1, 100); 0.1*sin(linspace(0, 2*pi, 100))]';
+##uin = rand(100, 1);
 
+%{
+Xanimate = [x_feed_lin(1:end-1), theta_feed_lin(1:end-1)];
+uin = list_U_feed_lin;
+
+Xanimate = [x_nonlin_LQRI(1:end-1), theta_nonlin_LQRI(1:end-1)];
+uin = list_U_LQRI;
+
+Xanimate = [x_NMPC(1:end-1), theta_NMPC(1:end-1)];
+uin = list_Uopt_NMPC;
+
+traj_din = thetades(1:taille);
+% close all
+flag_record = 0;
+animate_system_octave(T(1:end-p), Xanimate, traj_din, uin, flag_record , 0); % flag_movie, resampling
+
+%}
 
 
 

@@ -20,8 +20,10 @@ M_imp = 0.7*M; %0.9
 l_pend_imp = 0.7*l_pend; %1.3
 
 if allow_pert==1
-    A_incert = [ 0 1 0 0; 0 0 -m_pend_imp*g/M_imp 0 ; 0 0 0 1 ; 0 0 g/(M_imp*l_pend_imp)*(m_pend_imp+M_imp) 0];
-    B_incert = [0 1/M_imp 0 -1/(M_imp*l_pend_imp)]';
+    %A_incert = [ 0 1 0 0; 0 0 -m_pend_imp*g/M_imp 0 ; 0 0 0 1 ; 0 0 g/(M_imp*l_pend_imp)*(m_pend_imp+M_imp) 0];
+    %B_incert = [0 1/M_imp 0 -1/(M_imp*l_pend_imp)]';
+    A_incert = [ 0 1 0 0; 0 -psi/M_imp 0 0 ; 0 0 0 1 ; 0 -1/(M_imp*l_pend_imp)*psi 0 -(M_imp+m_pend_imp)/(M_imp*m_pend_imp*l_pend_imp)*phi];
+    B_incert = [0 1/M_imp 0 1/(M_imp*l_pend_imp)]';
 else
     A_incert = A;
     B_incert = B;
@@ -39,42 +41,47 @@ pert_theta = zeros(4,N);
 %pert_theta(3,round(t_pert/Te):end) = 1*pi/180;
 pert_theta(4,round(t_pert/Te):end) = allow_pert*5*pi/180;
 
-%% State Feedback (SF)
-rank(ctrb(A,B));
-t5des = 0.4; %entre 0.3 et 0.5s
-%poles_des_disc = [exp(-6.3/t5des*Te) exp(-0/t5des*Te) exp(-6.31/t5des*Te)  exp(-6.32*Te) ]; %continous to discrete
-poles_des_disc = [exp(-7.76/t5des*Te) exp(-7.77/t5des*Te) exp(-7.78/t5des*Te)  exp(-7.75/t5des*Te) ];
-%poles_des_disc = [exp(-100/t5des*Te) exp(-100/t5des*Te) exp(-50/t5des*Te)  exp(-50/t5des*Te) ];
-%P = poly([-7.76/t5des,-7.77/t5des,-7.78/t5des,-7.75/t5des]);
-Kd_SF = place(Ad_incert,Bd_incert,poles_des_disc);
+%% State Feedback (SF) with integrator
+##rank(ctrb(A,B));
+##t5des = 0.5; %entre 0.3 et 0.5s
+##%poles_des_disc = [exp(-6.3/t5des*Te) exp(-6/t5des*Te) exp(-6.31/t5des*Te)  exp(-6.32*Te) ]; %continous to discrete
+##poles_des_disc = [0.95 0.9 0.9 ];
+##%poles_des_disc = [exp(-100/t5des*Te) exp(-100/t5des*Te) exp(-50/t5des*Te)  exp(-50/t5des*Te) ];
+##Kd_SF = place(Ad_incert,Bd_incert,poles_des_disc);
+##
+##% eig(Ad_incert)
+##%1/(Cd*(eye(n)-Ad+Bd*Kd_SF)^(-1)*Bd)
+##% eig(Ad_incert-Bd_incert*Kd_SF)
+##ss_d_SF = ss(Ad_incert-Bd_incert*Kd_SF,Cd',Cd,zeros(1,1),Te);
+##tf_d_SF = tf(ss_d_SF);
+##%zero(tf_d_SF)
+##%figure();step(ss_d_SF);grid()
+##
+##K_I = 100;
+##Xk = X0;
+##x_SF = [X0(1)];
+##theta_SF = [X0(3)];
+##N = length(T);
+##list_U_SF = [];
+##integral_error = 0;
+##
+##for j=1:(N-p)
+##
+##    uk = -Kd_SF*Xk - K_I*integral_error;
+##    if linear==1
+##        Xk = Ad*Xk + Bd*uk + pert_theta(:,j); % state update lin
+##    else
+##        Xk = RK4(Xk,uk,Te) + pert_theta(:,j); % state update non-lin + pert
+##    end
+##    list_U_SF = [list_U_SF ; uk];
+##    theta_SF = [theta_SF ; Xk(3)];
+##    x_SF = [x_SF ; Xk(1)];
+##
+##    integral_error += integral_error + C*Xk - thetades(j);
+##end
 
-%1/(Cd*(eye(n)-Ad+Bd*Kd_SF)^(-1)*Bd)
-%eig(Ad_incert-Bd_incert*Kd_SF)
-ss_d_SF = ss(Ad_incert-Bd_incert*Kd_SF,[0 0 1 0]',Cd,zeros(1,1),Te);
-tf_d_SF = tf(ss_d_SF);
-%zero(tf_d_SF)
-%figure();step(ss_d_SF);grid()
 
-Xk = X0;
-x_SF = [X0(1)];
-theta_SF = [X0(3)];
-N = length(T);
-list_U_SF= [];
-
-for j=1:(N-p)
-
-    uk = -Kd_SF*Xk;
-    if linear==1
-        Xk = Ad*Xk + Bd*uk + pert_theta(:,j); % state update lin
-    else
-        Xk = RK4(Xk,uk,Te) + pert_theta(:,j); % state update non-lin + pert
-    end
-    list_U_SF = [list_U_SF ; uk];
-    theta_SF = [theta_SF ; Xk(3)];
-    x_SF= [x_SF ; Xk(1)];
-end
-
-% MPC sur syst non lin avec incertitudes prediction
+%% MPC sur syst non lin avec incertitudes prediction
 % dans fonction de coût mettre commande et pas débit de commande
 %p =40;
 last_element = Cd;
@@ -152,12 +159,13 @@ for k=1:N_h
     P_LQR = Ae'*P_LQR*Ae - Ae'*P_LQR*Be*(R + Be'*P_LQR*Be)^(-1)*Be'*P_LQR*Ae + Qek ;
 
 end
+% eig(Ae-Be*K_opt2(N_h+1-k,:))
 
-Uopt_nonlin_LQR2 = [];
+list_U_LQR2 = [];
 for k=1:N_h
-    Uopt_nonlin_LQR2(end+1) = - K_opt2(k,:)*Xk_LQR2; %N_h+1-k
+    list_U_LQR2(end+1) = - K_opt2(k,:)*Xk_LQR2; %N_h+1-k
     %Xk_LQR2 =  Ae*Xk_LQR2 + Be*Uopt_LQR2(end); %state update
-    uk = Uopt_nonlin_LQR2(end);
+    uk = list_U_LQR2(end);
     Xk = Xk_LQR2(1:4);
     if linear==1
         Xk = Ad*Xk + Bd*uk + pert_theta(:,j); % state update
@@ -200,7 +208,7 @@ Xk_LQRI = [X0; Cd*X0- thetades(1)]; %; Yref(2); thetades(1) - Cd*X0
 theta_nonlin_LQRI = Xk_LQRI(3);
 x_nonlin_LQRI = Xk_LQRI(1);
 %int_e_t_LQRI = Xk_LQRI(n+1);
-Uopt_nonlin_LQRI = [];
+list_U_LQRI = [];
 int_err_theta = 0;
 
 Q = 400; %4000
@@ -221,11 +229,11 @@ uk = 0; % u before
 Xk = X0;
 for k=1:N_h
     %Delta_u = - K_opt_LQRI(k,:)*Xk_LQR2;
-    Uopt_nonlin_LQRI(end+1) = uk + K_opt_LQRI(k,1:n)*Xk_LQRI(1:n) + K_opt_LQRI(k,n+1)*Xk_LQRI(n+1);
+    list_U_LQRI(end+1) = uk + K_opt_LQRI(k,1:n)*Xk_LQRI(1:n) + K_opt_LQRI(k,n+1)*Xk_LQRI(n+1);
     %Uopt_nonlin_LQRI(end+1) = - K_LQRI*Xk_LQRI(1:n) - 1*Ki_LQRI*Xk_LQRI(n+1); % + thetades
     %Uopt_nonlin_LQRI(end+1) = - K_opt2(k,:)*Xk_LQRI - 0.01*int_err_theta;
     %Xk_LQR2 =  Ae*Xk_LQR2 + Be*Uopt_LQR2(end); %state update
-    uk = Uopt_nonlin_LQRI(end);
+    uk = list_U_LQRI(end);
     Xk_before = Xk;
     if linear==1
         Xk = Ad*Xk + Bd*uk + pert_theta(:,j); % state update linear
@@ -460,13 +468,17 @@ for j=1:(N-p)
 
       % with parameters uncertainties
       D_theta = l_pend_imp*(M_imp + m_pend_imp*(sin(theta_k))^2);
-      uk = -m_pend_imp*l_pend_imp*sin(theta_k)*dtheta_k^2 + m_pend_imp*g*sin(theta_k)*cos(theta_k) + psi*dx_k + D_theta/cos(theta_k)*(2*xi_feed_lin*w0_feed_lin*dtheta_k + w0_feed_lin^2*theta_k + g/l_pend_imp*sin(theta_k)-1/(m_pend_imp*l_pend_imp^2)*phi*dtheta_k);
+      %uk = -m_pend_imp*l_pend_imp*sin(theta_k)*dtheta_k^2 + m_pend_imp*g*sin(theta_k)*cos(theta_k) + psi*dx_k + D_theta/cos(theta_k)*(2*xi_feed_lin*w0_feed_lin*dtheta_k + w0_feed_lin^2*theta_k + g/l_pend_imp*sin(theta_k)-1/(m_pend_imp*l_pend_imp^2)*phi*dtheta_k);
+
+      uk = m_pend_imp*l_pend_imp*sin(theta_k)*dtheta_k^2 + (M_imp + m_pend_imp)*g*sin(theta_k)/cos(theta_k) + psi*dx_k + (M_imp+m_pend_imp)/(m_pend_imp*l_pend_imp*cos(theta_k))*phi*dtheta_k - D_theta/cos(theta_k)*(2*xi_feed_lin*w0_feed_lin*dtheta_k + w0_feed_lin^2*theta_k);
+
 
     else
 
       %without parameters uncertainties
       D_theta = l_pend*(M + m_pend*(sin(theta_k))^2);
-      uk = -m_pend*l_pend*sin(theta_k)*dtheta_k^2 + m_pend*g*sin(theta_k)*cos(theta_k) + psi*dx_k + D_theta/cos(theta_k)*(2*xi_feed_lin*w0_feed_lin*dtheta_k + w0_feed_lin^2*theta_k + g/l_pend*sin(theta_k)-1/(m_pend*l_pend^2)*phi*dtheta_k);
+      uk = m_pend*l_pend*sin(theta_k)*dtheta_k^2 + (M + m_pend)*g*sin(theta_k)/cos(theta_k) + psi*dx_k + (M+m_pend)/(m_pend*l_pend*cos(theta_k))*phi*dtheta_k - D_theta/cos(theta_k)*(2*xi_feed_lin*w0_feed_lin*dtheta_k + w0_feed_lin^2*theta_k);
+
 
     end
 
@@ -506,9 +518,11 @@ if linear == 0
   ub = []; %[2,2];
   nonlcon = [];
   %options_fmincon = optimoptions('fmincon','Display','iter','Algorithm','sqp'); % Matlab version
+
   options_fmincon = optimset('Display', 'iter', 'Algorithm', 'sqp', ...
-  'TolX', 1e-4, ...       % Step tolerance (default is 1e-6)
-   'TolFun', 1e-4);     % Function tolerance (default is 1e-6)); % Octave  version
+  'TolX', 1e-2, ...   % Step tolerance (default is 1e-6) % 1e-4
+   'TolFun', 1e-2);     % Function tolerance (default is 1e-6));  % 1e-4
+   % Octave  version
   Q_NMPC = 2000; % 2000 4000
   R_NMPC = 0.1;
 

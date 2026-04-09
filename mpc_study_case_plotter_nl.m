@@ -5,18 +5,18 @@ subplot(2,1,1)
 plot(T(1:end-p),180/pi*theta_nonlin(1:end-1),'LineWidth',2)
 grid()
 hold on
-plot(T(1:end-p),180/pi*theta_SF(1:end-1)','LineWidth',2)
+%plot(T(1:end-p),180/pi*theta_SF(1:end-1)','LineWidth',2)
 plot(T(1:end-p),180/pi*theta_nonlin_LQR2(1:end-1),'LineWidth',2,'linestyle','--')
 plot(T(1:end-p),180/pi*theta_nonlin_LQRI(1:end-1),'LineWidth',2)
 plot(T(1:end-p),180/pi*theta_OSF(1:end-1),'LineWidth',2)
 plot(T(1:end-p),180/pi*theta_COSF(1:end-1),'LineWidth',2)
 %plot(T(1:end-p),180/pi*thetades(1:end-p))
 hold off
-legend('\theta_{MPC} (°)','\theta_{SF}','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}') %,'\theta des'
+legend('\theta_{MPC} (°)','\theta_{LQR}','\theta_{LQRI}','\theta_{OSFMPC}','\theta_{COSFMPC}') %,'\theta des'
 xlabel('Time (s)')
 ylabel("Angle \theta (°)")
 title(titre)
-%title('')
+%title('') % ,'\theta_{SF}'
 
 % subplot(3,1,2)
 % plot(T(1:end-p),x_nonlin(1:end-1),'LineWidth',2)
@@ -33,18 +33,18 @@ title(titre)
 subplot(2,1,2)
 plot(T(1:end-p),list_Uopt_nonlin,'LineWidth',2)
 hold on
-plot(T(1:end-p),list_U_SF,'LineWidth',2)
-plot(T(1:end-p),Uopt_nonlin_LQR2,'LineWidth',2,'linestyle','--')
-plot(T(1:end-p),Uopt_nonlin_LQRI,'LineWidth',2)
+%plot(T(1:end-p),list_U_SF,'LineWidth',2)
+plot(T(1:end-p),list_U_LQR2,'LineWidth',2,'linestyle','--')
+plot(T(1:end-p),list_U_LQRI,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_OSF,'LineWidth',2)
 plot(T(1:end-p),list_Uopt_COSF,'LineWidth',2)
 hold off
 grid
-legend('Uopt_{MPC}','U_{SF}','Uopt_{LQR}','Uopt_{LQRI}','Uopt_{OSF-MPC}','Uopt_{COSF-MPC}')
+legend('Uopt_{MPC}','Uopt_{LQR}','Uopt_{LQRI}','Uopt_{OSF-MPC}','Uopt_{COSF-MPC}')
 xlabel('Time (s)')
 ylabel("Control input U")
 title('Commandes')
-
+% ,'U_{SF}'
 
 %{
 

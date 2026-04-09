@@ -35,8 +35,8 @@ plot(T(1:end-p),180/pi*e_t_feed_lin(1:end),'LineWidth',2)
 plot(T(1:end-p),180/pi*e_t_NMPC(1:end),'LineWidth',2)
 hold off
 legend('e_{\theta,MPC}','e_{\theta,LQR}','e_{\theta,LQRI}','e_{\theta,OSF-MPC}','e_{\theta,COSF-MPC}','e_{\theta,feed lin}','e_{\theta,NMPC}','fontsize',13) %'\theta des'
-xlabel('Time (s)')
-ylabel('Tracking error e_{\theta} (in °)')
+xlabel('Time [s]')
+ylabel('Tracking error e_{\theta} [deg]')
 %title('Comparatif erreurs de suivi')
 title({'Comparison tracking error for different controllers',plot_subtitle},'fontsize',16)
 % subplot(2,1,2)
