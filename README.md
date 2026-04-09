@@ -115,9 +115,12 @@ where:
 - Control effort plots.
 - Robustness analysis (Monte Carlo simulations). -->
 
+<img alt="System" src="pictures/test_pendulum_NMPC.gif" width="50%" height="50%"> </img>
+
 <img alt="System" src="pictures/Tracking_error_nonlin_nominal.png" width="50%" height="50%"> </img>
 
 <img alt="System" src="pictures/Tracking_error_nonlin_perturbed.png" width="50%" height="50%"> </img>
+
 
 The performance metrics that can be observed and computed are the following:
 - **Rise time**
