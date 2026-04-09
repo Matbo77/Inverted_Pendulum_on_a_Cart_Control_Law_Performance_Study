@@ -73,30 +73,29 @@ where:
 
 ## 📊 Control Strategies
 
-### 1. **State Feedback Control**
-
-- Uses **pole placement** based on the approximate linearized system for stabilization.
+<!-- ### 1. **State Feedback Control**
+- Uses **pole placement** based on the approximate linearized system for stabilization. -->
 <!-- - Assumes perfect model knowledge. **LQR** -->
 
-### 2. **Model Predictive Control (MPC)**
+### 1. **Model Predictive Control (MPC)**
 
 - Optimizes control actions over a finite horizon.
 
-### 3. **Offset-Free MPC with Integrator**
+### 2. **Offset-Free MPC with Integrator**
 
 - Extends MPC with an **integral action** to eliminate steady-state errors.
 - Robust to constant disturbances.
 
-### 4. **Constrained Offset-Free MPC**
+### 3. **Constrained Offset-Free MPC**
 
 - Combines offset-free properties with **input/output constraints**.
 <!-- - Evaluates robustness to parameter mismatches. - Handles constraints explicitly. -->
 
-### 5. **Feedback linearization**
+### 4. **Feedback linearization**
 
 - Transformes the nonlinear control system into an equivalent linear control system by a proper choice of input.
 
-### 6. **Nonlinear MPC**
+### 5. **Nonlinear MPC**
 
 - This solves an MPC optimization problem which takes into account the nonlinear dynamics of the inverted pendulum on a cart.
 
