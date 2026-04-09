@@ -48,7 +48,8 @@ After simplification, the system is described by:
 
 $$
 \begin{bmatrix}
- \ddot{x} \\ \ddot{\theta}   
+ \ddot{x} \\ 
+ \ddot{\theta}   
 \end{bmatrix} = \frac{1}{D(\theta)} \begin{bmatrix}
  lF(t) - l\psi\dot{x} - ml^2\dot{\theta}^2\sin(\theta) - mgl\sin(\theta)\cos(\theta) -\phi\dot{\theta}\cos(\theta)  \\  
  -(M + m)g\sin(\theta) - \frac{M + m}{ml}\phi\dot{\theta} + \cos(\theta)F(t) - \psi\dot{x}\cos(\theta) - ml\dot{\theta}^2\sin(\theta)\cos(\theta)  
