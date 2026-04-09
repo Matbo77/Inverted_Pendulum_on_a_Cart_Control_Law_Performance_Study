@@ -203,7 +203,7 @@ Mammeri de Tizi-Ouzou, Algérie. 2016.
 : étude comparative avec les régulateurs classiques”. In: Mémoire de
 Magister filière génie électrique. Université M’HAMED BOUGARABOUMERDES,
 Algérie. 2013.
-
+3. [Inverted_Pendulum_Cart_Simulation Github repo](https://github.com/ssong47/Inverted_Pendulum_Cart_Simulation)
 ---
 
 
