@@ -13,7 +13,7 @@ Comparative analysis of different control strategies (state feedback, LQR, MPC) 
 This project investigates the performance of various control laws for stabilizing an **inverted pendulum on a cart**, using the dynamics of this nonlinear system. 
 For now, the study compares:
 
-- **Linear State Feedback Control (SF)**
+<!-- - **Linear State Feedback Control (SF)** -->
 - **Linear Quadratic Regulator and with Integrator (LQR and LQRI)**
 - **Model Predictive Control (MPC)**
 - **Offset-Free MPC with Integrator (OSF-MPC)**
