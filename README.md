@@ -115,7 +115,7 @@ where:
 - Control effort plots.
 - Robustness analysis (Monte Carlo simulations). -->
 
-<img alt="System" src="pictures/test_pendulum_NMPC_compress.gif" width="50%" height="50%"> </img>
+<img alt="System" src="pictures/test_pendulum_NMPC_compress.gif" width="80%" height="80%"> </img>
 
 <img alt="System" src="pictures/Tracking_error_nonlin_nominal.png" width="50%" height="50%"> </img>
 
