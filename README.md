@@ -39,18 +39,20 @@ The nonlinear dynamics of the inverted pendulum on a cart are derived using the 
 
 $$
 \begin{cases}
-(M + m)\ddot{x} + ml\ddot{\theta}\cos(\theta) - ml\dot{\theta}^2\sin(\theta) = F(t) - \psi\dot{x} \\
-ml^2\ddot{\theta} + ml\ddot{x}\cos(\theta) - mgl\sin(\theta) = -\phi\dot{\theta}
+(M + m)\ddot{x} - ml\ddot{\theta}\cos(\theta) + ml\dot{\theta}^2\sin(\theta) = F(t) - \psi\dot{x} \\
+ml^2\ddot{\theta} - ml\ddot{x}\cos(\theta) + mgl\sin(\theta) = -\phi\dot{\theta}
 \end{cases}
 $$
 
 After simplification, the system is described by:
 
 $$
-\begin{cases}
-\ddot{x} = \frac{1}{D(\theta)} \left( ml\sin(\theta)\dot{\theta}^2 - mg\cos(\theta)\sin(\theta) - \psi\dot{x} + F(t) \right) \\
-\ddot{\theta} = -\frac{\cos(\theta)}{D(\theta)} \left( ml\sin(\theta)\dot{\theta}^2 - mg\cos(\theta)\sin(\theta) - \psi\dot{x} + F(t) \right) - \frac{g}{l}\sin(\theta) - \frac{1}{ml^2}\phi\dot{\theta}
-\end{cases}
+\begin{bmatrix}
+ \ddot{x} \\ \ddot{\theta}   
+\end{bmatrix} = \frac{1}{D(\theta)} \begin{bmatrix}
+ lF(t) - l\psi\dot{x} - ml^2\dot{\theta}^2\sin(\theta) - mgl\sin(\theta)\cos(\theta) -\phi\dot{\theta}\cos(\theta)  \\  
+ -(M + m)g\sin(\theta) - \frac{M + m}{ml}\phi\dot{\theta} + \cos(\theta)F(t) - \psi\dot{x}\cos(\theta) - ml\dot{\theta}^2\sin(\theta)\cos(\theta)  
+\end{bmatrix} 
 $$
 
 with
