@@ -172,8 +172,7 @@ mpc_study_case_main.m
 ```
 
 -  The uncertainties/disturbances can be adjust in
-```matlab mpc_study_case_nl.m
-```
+- `mpc_study_case_nl.m`
 
 ### 2. Customize Controllers
 
