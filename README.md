@@ -168,11 +168,12 @@ The performance metrics that can be observed and computed are the following:
 Run the main script to compare all controllers:
 
 ```matlab
-mpc_study_case_main;
+mpc_study_case_main.m
 ```
 
--  The uncertainties/disturbances can be adjust in mpc_study_case_nl.m.
-
+-  The uncertainties/disturbances can be adjust in
+```matlab mpc_study_case_nl.m
+```
 
 ### 2. Customize Controllers
 
